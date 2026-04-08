@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Invoice System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <div class="toolbar no-print">
+        <button onclick="addItem()">+ Add Item</button>
+        <button onclick="generatePDF()" class="btn-download">Download PDF</button>
+    </div>
+
+    <div id="invoice-container" class="invoice-box">
+        <header>
+            <div class="logo-section">
+                <input type="file" id="logo-input" accept="image/*" onchange="loadLogo(event)">
+                <img id="company-logo" src="https://via.placeholder.com/150x50?text=Upload+Logo" alt="Logo">
+            </div>
+            <div class="invoice-meta">
+                <h1>INVOICE</h1>
+                <p>Date: <input type="date" id="invoice-date"></p>
+                <p>Invoice #: <input type="text" placeholder="INV-001"></p>
+            </div>
+        </header>
+
+        <section class="billing-info">
+            <div class="from">
+                <h3>Our Company</h3>
+                <textarea placeholder="Your Company Address & Contact"></textarea>
+            </div>
+            <div class="to">
+                <h3>Invoice To</h3>
+                <textarea placeholder="Client Name & Address"></textarea>
+            </div>
+        </section>
+
+        <table id="items-table">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th class="no-print">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" placeholder="Item description"></td>
+                    <td><input type="number" value="1" class="qty" oninput="calculate()"></td>
+                    <td><input type="number" value="0" class="price" oninput="calculate()"></td>
+                    <td class="row-total">0.00</td>
+                    <td class="no-print"><button onclick="removeItem(this)">X</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <section class="totals">
+            <div class="notes">
+                <p><strong>Notes:</strong></p>
+                <textarea placeholder="Custom notes..."></textarea>
+                <p><strong>Terms:</strong></p>
+                <textarea placeholder="Terms and conditions..."></textarea>
+            </div>
+            <div class="summary">
+                <p>Subtotal: <span id="subtotal">0.00</span></p>
+                <p>Tax (%): <input type="number" id="tax-rate" value="0" oninput="calculate()"></p>
+                <p class="grand-total">Grand Total: <span id="grand-total">0.00</span></p>
+                <p>Payment: <input type="text" placeholder="Bank or Cash"></p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="signature">
+                <div class="sig-line"></div>
+                <p>Authorized Signature</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
