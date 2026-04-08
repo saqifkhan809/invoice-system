@@ -10,40 +10,49 @@
 <body>
 
     <div class="toolbar no-print">
-        <button onclick="addItem()">+ Add Item</button>
+        <button onclick="addItem()" class="btn-add">+ Add Item</button>
         <button onclick="generatePDF()" class="btn-download">Download PDF</button>
     </div>
 
     <div id="invoice-container" class="invoice-box">
         <header>
             <div class="logo-section">
-                <input type="file" id="logo-input" accept="image/*" onchange="loadLogo(event)">
-                <img id="company-logo" src="https://via.placeholder.com/150x50?text=Upload+Logo" alt="Logo">
+                <label for="logo-input" class="logo-uploader">
+                    <img id="company-logo" src="https://via.placeholder.com/500x500?text=Click+to+Upload+Logo" alt="Logo">
+                    <div class="upload-overlay"><span>Change Logo</span></div>
+                </label>
+                <input type="file" id="logo-input" accept="image/*" onchange="loadLogo(event)" style="display:none;">
             </div>
             <div class="invoice-meta">
                 <h1>INVOICE</h1>
-                <p>Date: <input type="date" id="invoice-date"></p>
-                <p>Invoice #: <input type="text" placeholder="INV-001"></p>
+                <div class="meta-item">
+                    <label>Date:</label>
+                    <input type="date" id="invoice-date">
+                </div>
+                <div class="meta-item">
+                    <label>Invoice #:</label>
+                    <input type="text" placeholder="INV-001">
+                </div>
             </div>
         </header>
 
-        <section class="billing-info">
-            <div class="from">
+        <div class="billing-grid">
+            <div class="bill-box">
                 <h3>Our Company</h3>
-                <textarea placeholder="Your Company Address & Contact"></textarea>
+                <textarea placeholder="Your Company Name&#10;Address&#10;Phone & Email" rows="4"></textarea>
             </div>
-            <div class="to">
+            <div class="bill-box">
                 <h3>Invoice To</h3>
-                <textarea placeholder="Client Name & Address"></textarea>
+                <textarea placeholder="Client Name&#10;Client Address&#10;Contact Info" rows="4"></textarea>
             </div>
-        </section>
+        </div>
 
         <table id="items-table">
             <thead>
                 <tr>
                     <th>SN</th>
                     <th>Description</th>
-                    <th>Quantity</th>
+                    <th>Qty</th>
                     <th>Price</th>
                     <th>Total</th>
                     <th class="no-print">Action</th>
@@ -51,37 +60,46 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td><input type="text" placeholder="Item description"></td>
-                    <td><input type="number" value="1" class="qty" oninput="calculate()"></td>
-                    <td><input type="number" value="0" class="price" oninput="calculate()"></td>
-                    <td class="row-total">0.00</td>
-                    <td class="no-print"><button onclick="removeItem(this)">X</button></td>
+                    <td data-label="SN">1</td>
+                    <td data-label="Description"><input type="text" placeholder="Item/Service description"></td>
+                    <td data-label="Qty"><input type="number" value="1" class="qty" oninput="calculate()"></td>
+                    <td data-label="Price"><input type="number" value="0" class="price" oninput="calculate()"></td>
+                    <td data-label="Total" class="row-total">0.00</td>
+                    <td class="no-print"><button class="btn-del" onclick="removeItem(this)">×</button></td>
                 </tr>
             </tbody>
         </table>
 
-        <section class="totals">
-            <div class="notes">
-                <p><strong>Notes:</strong></p>
-                <textarea placeholder="Custom notes..."></textarea>
-                <p><strong>Terms:</strong></p>
-                <textarea placeholder="Terms and conditions..."></textarea>
+        <div class="invoice-footer">
+            <div class="footer-left">
+                <div class="input-group">
+                    <label>Terms & Conditions</label>
+                    <textarea placeholder="Payment due within 30 days..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Payment Method (e.g. Bkash/Bank)</label>
+                    <textarea id="payment-input" placeholder="Enter payment details here..."></textarea>
+                </div>
             </div>
-            <div class="summary">
-                <p>Subtotal: <span id="subtotal">0.00</span></p>
-                <p>Tax (%): <input type="number" id="tax-rate" value="0" oninput="calculate()"></p>
-                <p class="grand-total">Grand Total: <span id="grand-total">0.00</span></p>
-                <p>Payment: <input type="text" placeholder="Bank or Cash"></p>
+            <div class="footer-right">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (%):</span>
+                    <input type="number" id="tax-rate" value="0" oninput="calculate()">
+                </div>
+                <div class="summary-row grand-total">
+                    <span>Grand Total:</span>
+                    <span id="grand-total">0.00</span>
+                </div>
+                <div class="signature-section">
+                    <div class="sig-line"></div>
+                    <p>Authorized Signature</p>
+                </div>
             </div>
-        </section>
-
-        <footer>
-            <div class="signature">
-                <div class="sig-line"></div>
-                <p>Authorized Signature</p>
-            </div>
-        </footer>
+        </div>
     </div>
 
     <script src="script.js"></script>
